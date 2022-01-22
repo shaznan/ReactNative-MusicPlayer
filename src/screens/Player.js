@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 export default function Player() {
   return (
     <View style={Styles.container}>
-      <Text>Audio List</Text>
+      <Text>Player</Text>
      </View>
   );
 }
