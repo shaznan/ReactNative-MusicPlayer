@@ -1,31 +1,40 @@
 import { Entypo } from "@expo/vector-icons";
 import React from "react";
-import { Dimensions, StyleSheet, Text, View } from "react-native";
+import {
+  Dimensions,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import color from "../misc/color";
+import { convertTime } from "../helpers/index";
 
-export default function AudioListItem() {
+export default function AudioListItem({ title, duration, onOptionsHandler }) {
+  const getInitials = (fileName) => fileName[0];
   return (
     <>
-      <View style={Styles.container}>
+      <TouchableOpacity style={Styles.container}>
         <View style={Styles.leftContainer}>
           <View style={Styles.thumbnail}>
-            <Text style={Styles.thumbnailText}>A</Text>
+            <Text style={Styles.thumbnailText}>{getInitials(title)}</Text>
           </View>
           <View style={Styles.titleContainer}>
             <Text numberOfLines={1} style={Styles.title}>
-              This is going to be the title of the song
+              {title}
             </Text>
-            <Text style={Styles.timeText}>03:15</Text>
+            <Text style={Styles.timeText}>{convertTime(duration)}</Text>
           </View>
         </View>
-        <View style={Styles.rightContainer}>
+        <TouchableOpacity style={Styles.rightContainer}>
           <Entypo
+            onPress={onOptionsHandler}
             name="dots-three-vertical"
-            size={20}
+            size={24}
             color={color.FONT_MEDIUM}
           />
-        </View>
-      </View>
+        </TouchableOpacity>
+      </TouchableOpacity>
       <View style={Styles.seperator}></View>
     </>
   );
@@ -37,7 +46,7 @@ const Styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     alignSelf: "center",
-    width: width - 80,
+    width: width - 40,
   },
   leftContainer: {
     flexDirection: "row",

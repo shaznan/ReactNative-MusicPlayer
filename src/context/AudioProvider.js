@@ -1,12 +1,14 @@
-import React, { useState,useEffect, createContext } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { View, Text, Alert } from "react-native";
 import * as MediaLibrary from "expo-media-library";
 import { DataProvider } from "recyclerlistview";
 
 export const AudioContext = createContext();
-export default function AudioProvider({children}) {
-  const [audioFiles, setAudioFiles] = useState([])
-  const [dataProvider, setDataprovider] = useState(new DataProvider((r1,r2)=>r1 !== r2))
+export default function AudioProvider({ children }) {
+  const [audioFiles, setAudioFiles] = useState([]);
+  const [dataProvider, setDataprovider] = useState(
+    new DataProvider((r1, r2) => r1 !== r2)
+  );
   const permissionAlert = () => {
     Alert.alert(
       "Permission Required",
@@ -41,10 +43,8 @@ export default function AudioProvider({children}) {
       mediaType: "audio",
       first: media.totalCount,
     });
-    setDataprovider(dataProvider.cloneWithRows([...audioFiles,media.assets]))
-    setAudioFiles(media.assets)
-   
-
+    setDataprovider(dataProvider.cloneWithRows([...audioFiles, media.assets]));
+    setAudioFiles(media.assets);
   };
 
   //Get permission from user before getting audio files
@@ -68,7 +68,7 @@ export default function AudioProvider({children}) {
       }
 
       if (status === "denied" && !canAskAgain) {
-          Alert.alert('Error Please try again later')
+        Alert.alert("Error Please try again later");
       }
     }
   };
@@ -78,6 +78,8 @@ export default function AudioProvider({children}) {
   }, []);
 
   return (
-    <AudioContext.Provider value={{musicFiles: audioFiles, dataProvider}}>{children}</AudioContext.Provider>
+    <AudioContext.Provider value={{ audioFiles, dataProvider }}>
+      {children}
+    </AudioContext.Provider>
   );
 }
