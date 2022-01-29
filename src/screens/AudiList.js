@@ -8,10 +8,15 @@ import { Audio } from "expo-av";
 
 export default function AudioList() {
   const value = useContext(AudioContext);
+  const {
+    playBackObj,
+    setPlayBackObj,
+    soundObject,
+    setSoundObject,
+    currentAudio,
+    setCurrentAudio,
+  } = value;
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [playBackObj, setPlayBackObj] = useState(null);
-  const [soundObject, setSoundObject] = useState(null);
-  const [currentAudio, setCurrentAudio] = useState({});
 
   //part of recyclerlistview
   const layoutProvider = new LayoutProvider(

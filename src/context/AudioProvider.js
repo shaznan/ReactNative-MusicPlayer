@@ -9,6 +9,9 @@ export default function AudioProvider({ children }) {
   const [dataProvider, setDataprovider] = useState(
     new DataProvider((r1, r2) => r1 !== r2)
   );
+  const [playBackObj, setPlayBackObj] = useState(null);
+  const [soundObject, setSoundObject] = useState(null);
+  const [currentAudio, setCurrentAudio] = useState({});
   const permissionAlert = () => {
     Alert.alert(
       "Permission Required",
@@ -78,7 +81,18 @@ export default function AudioProvider({ children }) {
   }, []);
 
   return (
-    <AudioContext.Provider value={{ audioFiles, dataProvider }}>
+    <AudioContext.Provider
+      value={{
+        audioFiles,
+        dataProvider,
+        playBackObj,
+        setPlayBackObj,
+        soundObject,
+        setSoundObject,
+        currentAudio,
+        setCurrentAudio,
+      }}
+    >
       {children}
     </AudioContext.Provider>
   );
