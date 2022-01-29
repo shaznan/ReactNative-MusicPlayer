@@ -5,36 +5,48 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  TouchableWithoutFeedback,
   View,
 } from "react-native";
 import color from "../misc/color";
 import { convertTime } from "../helpers/index";
 
-export default function AudioListItem({ title, duration, onOptionsHandler }) {
+export default function AudioListItem({
+  title,
+  duration,
+  onOptionsHandler,
+  onAudioPress,
+}) {
   const getInitials = (fileName) => fileName[0];
   return (
     <>
-      <TouchableOpacity style={Styles.container}>
-        <View style={Styles.leftContainer}>
-          <View style={Styles.thumbnail}>
-            <Text style={Styles.thumbnailText}>{getInitials(title)}</Text>
+      <View style={Styles.container}>
+        <TouchableWithoutFeedback
+          onPress={onAudioPress}
+          style={Styles.container}
+        >
+          <View style={Styles.leftContainer}>
+            <View style={Styles.thumbnail}>
+              <Text style={Styles.thumbnailText}>{getInitials(title)}</Text>
+            </View>
+            <View style={Styles.titleContainer}>
+              <Text numberOfLines={1} style={Styles.title}>
+                {title}
+              </Text>
+              <Text style={Styles.timeText}>{convertTime(duration)}</Text>
+            </View>
           </View>
-          <View style={Styles.titleContainer}>
-            <Text numberOfLines={1} style={Styles.title}>
-              {title}
-            </Text>
-            <Text style={Styles.timeText}>{convertTime(duration)}</Text>
-          </View>
-        </View>
+        </TouchableWithoutFeedback>
         <TouchableOpacity style={Styles.rightContainer}>
           <Entypo
             onPress={onOptionsHandler}
             name="dots-three-vertical"
             size={24}
             color={color.FONT_MEDIUM}
+            style={{ padding: 10 }}
           />
         </TouchableOpacity>
-      </TouchableOpacity>
+      </View>
       <View style={Styles.seperator}></View>
     </>
   );

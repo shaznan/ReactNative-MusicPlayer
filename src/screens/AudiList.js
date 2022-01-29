@@ -4,10 +4,14 @@ import { AudioContext } from "../context/AudioProvider";
 import { LayoutProvider, RecyclerListView } from "recyclerlistview";
 import AudioListItem from "../components/AudioListItem";
 import OptionsModal from "../Modal/OptionsModal";
+import { Audio } from "expo-av";
 
 export default function AudioList() {
   const value = useContext(AudioContext);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [playBackObj, setPlayBackObj] = useState(null);
+  const [soundObject, setSoundObject] = useState(null);
+  const [currentAudio, setCurrentAudio] = useState({});
 
   //part of recyclerlistview
   const layoutProvider = new LayoutProvider(
@@ -20,6 +24,36 @@ export default function AudioList() {
   //part of recyclerlistview
   const rowRenderer = (type, item) => {
     return <Text>{item.filename}</Text>;
+  };
+
+  const handleAudioPress = async (item) => {
+    //If no audio playing, play audio
+    if (soundObject === null) {
+      const playbackObject = new Audio.Sound();
+      const status = await playbackObject.loadAsync(
+        { uri: item.uri },
+        { shouldPlay: true }
+      );
+      setCurrentAudio(item);
+      setSoundObject(status);
+      setPlayBackObj(playbackObject);
+      return;
+    }
+    //if audio is playing, pause audio
+    if (soundObject.isLoaded && soundObject.isPlaying) {
+      const status = await playBackObj.setStatusAsync({ shouldPlay: false });
+      setSoundObject(status);
+    }
+
+    //If audio is not playing, resume audio
+    if (
+      soundObject.isLoaded &&
+      !soundObject.isPlaying &&
+      currentAudio.id === item.id
+    ) {
+      const status = await playBackObj.playAsync();
+      setSoundObject(status);
+    }
   };
 
   return (
@@ -36,6 +70,7 @@ export default function AudioList() {
               title={item.filename}
               duration={item.duration}
               onOptionsHandler={() => setIsModalVisible(true)}
+              onAudioPress={() => handleAudioPress(item)}
             />
           ))}
           <OptionsModal
