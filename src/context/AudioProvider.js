@@ -12,6 +12,8 @@ export default function AudioProvider({ children }) {
   const [playBackObj, setPlayBackObj] = useState(null);
   const [soundObject, setSoundObject] = useState(null);
   const [currentAudio, setCurrentAudio] = useState({});
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentAudioIndex, setCurrentAudioIndex] = useState(null);
   const permissionAlert = () => {
     Alert.alert(
       "Permission Required",
@@ -91,6 +93,10 @@ export default function AudioProvider({ children }) {
         setSoundObject,
         currentAudio,
         setCurrentAudio,
+        isPlaying,
+        setIsPlaying,
+        currentAudioIndex,
+        setCurrentAudioIndex,
       }}
     >
       {children}

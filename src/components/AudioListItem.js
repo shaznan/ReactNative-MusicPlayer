@@ -10,14 +10,26 @@ import {
 } from "react-native";
 import color from "../misc/color";
 import { convertTime } from "../helpers/index";
+import { Ionicons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function AudioListItem({
   title,
   duration,
   onOptionsHandler,
   onAudioPress,
+  isPlaying,
+  activeListItem,
 }) {
   const getInitials = (fileName) => fileName[0];
+
+  const renderPlayPauseIcon = () =>
+    !isPlaying ? (
+      <Ionicons name="play" size={24} color="black" />
+    ) : (
+      <MaterialCommunityIcons name="pause" size={24} color="black" />
+    );
+
   return (
     <>
       <View style={Styles.container}>
@@ -27,7 +39,9 @@ export default function AudioListItem({
         >
           <View style={Styles.leftContainer}>
             <View style={Styles.thumbnail}>
-              <Text style={Styles.thumbnailText}>{getInitials(title)}</Text>
+              <Text style={Styles.thumbnailText}>
+                {activeListItem ? renderPlayPauseIcon() : getInitials(title)}
+              </Text>
             </View>
             <View style={Styles.titleContainer}>
               <Text numberOfLines={1} style={Styles.title}>

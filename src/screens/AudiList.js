@@ -10,11 +10,16 @@ export default function AudioList() {
   const value = useContext(AudioContext);
   const {
     playBackObj,
+    audioFiles,
     setPlayBackObj,
     soundObject,
     setSoundObject,
     currentAudio,
     setCurrentAudio,
+    isPlaying,
+    setIsPlaying,
+    currentAudioIndex,
+    setCurrentAudioIndex,
   } = value;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -42,6 +47,8 @@ export default function AudioList() {
       setCurrentAudio(item);
       setSoundObject(status);
       setPlayBackObj(playbackObject);
+      setIsPlaying(true);
+      setCurrentAudioIndex(audioFiles.indexOf(item));
       return;
     }
     //if audio is playing, pause audio
@@ -52,6 +59,7 @@ export default function AudioList() {
     ) {
       const status = await playBackObj.setStatusAsync({ shouldPlay: false });
       setSoundObject(status);
+      setIsPlaying(false);
     }
 
     //If audio is not playing, resume audio
@@ -62,6 +70,7 @@ export default function AudioList() {
     ) {
       const status = await playBackObj.playAsync();
       setSoundObject(status);
+      setIsPlaying(true);
     }
 
     //play another audio
@@ -74,6 +83,8 @@ export default function AudioList() {
       );
       setCurrentAudio(item);
       setSoundObject(status);
+      setIsPlaying(true);
+      setCurrentAudioIndex(audioFiles.indexOf(item));
     }
   };
 
@@ -85,13 +96,15 @@ export default function AudioList() {
         </>
       ) : (
         <ScrollView style={Styles.container}>
-          {value?.audioFiles?.map((item) => (
+          {value?.audioFiles?.map((item, i) => (
             <AudioListItem
               key={item.id}
               title={item.filename}
               duration={item.duration}
               onOptionsHandler={() => setIsModalVisible(true)}
               onAudioPress={() => handleAudioPress(item)}
+              isPlaying={isPlaying}
+              activeListItem={i === currentAudioIndex}
             />
           ))}
           <OptionsModal
