@@ -45,7 +45,11 @@ export default function AudioList() {
       return;
     }
     //if audio is playing, pause audio
-    if (soundObject.isLoaded && soundObject.isPlaying) {
+    if (
+      soundObject.isLoaded &&
+      soundObject.isPlaying &&
+      currentAudio.id === item.id
+    ) {
       const status = await playBackObj.setStatusAsync({ shouldPlay: false });
       setSoundObject(status);
     }
@@ -57,6 +61,18 @@ export default function AudioList() {
       currentAudio.id === item.id
     ) {
       const status = await playBackObj.playAsync();
+      setSoundObject(status);
+    }
+
+    //play another audio
+    if (soundObject.isLoaded && currentAudio.id !== item.id) {
+      await playBackObj.stopAsync();
+      await playBackObj.unloadAsync();
+      const status = await playBackObj.loadAsync(
+        { uri: item.uri },
+        { shouldPlay: true }
+      );
+      setCurrentAudio(item);
       setSoundObject(status);
     }
   };
