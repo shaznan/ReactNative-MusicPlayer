@@ -8,13 +8,15 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-export default function OptionsModal({ visible, onCloseHandler }) {
+export default function OptionsModal({ visible, onCloseHandler, title }) {
   return (
     <>
       <StatusBar hidden />
       <Modal animationType="slide" transparent visible={visible}>
         <View style={Styles.modal}>
-          <Text style={Styles.title}>Dynamic title of our audio</Text>
+          <Text style={Styles.title} numberOfLines={1}>
+            {title}
+          </Text>
           <View style={Styles.optionContainer}>
             <Text style={Styles.option}>Play</Text>
             <Text style={Styles.option}>Add to Playlist</Text>

@@ -24,17 +24,17 @@ export default function AudioList() {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   //part of recyclerlistview
-  const layoutProvider = new LayoutProvider(
-    (i) => "audio",
-    (type, dimensions) => {
-      dimensions.width = Dimensions.get("window").width;
-      dimensions.height = 70;
-    }
-  );
+  // const layoutProvider = new LayoutProvider(
+  //   (i) => "audio",
+  //   (type, dimensions) => {
+  //     dimensions.width = Dimensions.get("window").width;
+  //     dimensions.height = 70;
+  //   }
+  // );
   //part of recyclerlistview
-  const rowRenderer = (type, item) => {
-    return <Text>{item.filename}</Text>;
-  };
+  // const rowRenderer = (type, item) => {
+  //   return <Text>{item.filename}</Text>;
+  // };
 
   const handleAudioPress = async (item) => {
     //If no audio playing, play audio

@@ -80,7 +80,7 @@ const Styles = StyleSheet.create({
     flex: 1,
   },
   rightContainer: {
-    flexBasis: 20,
+    // flexBasis: 20,
     alignItems: "center",
     justifyContent: "center",
     height: 50,
