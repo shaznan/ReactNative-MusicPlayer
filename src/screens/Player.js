@@ -1,20 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Slider from "@react-native-community/slider";
 import PlayerButton from "../components/PlayerButton";
+import { AudioContext } from "../context/AudioProvider";
 
 const { width } = Dimensions.get("window");
 export default function Player() {
+  const { totalAudioCount, currentAudioIndex, currentAudio, isPlaying } =
+    useContext(AudioContext);
   return (
     <View style={Styles.container}>
-      <Text style={Styles.audioCount}>1 / 99</Text>
+      <Text style={Styles.audioCount}>{`${
+        currentAudioIndex + 1
+      } / ${totalAudioCount}`}</Text>
       <View style={Styles.midBannerContainer}>
         <MaterialCommunityIcons name="music-circle" size={300} color="black" />
       </View>
       <View style={Styles.audioPlayerContainer}>
         <Text numberOfLines={1} style={Styles.audioTitle}>
-          Audio File Name
+          {currentAudio.filename}
         </Text>
         <Slider
           style={Styles.audioSlider}
@@ -25,7 +30,10 @@ export default function Player() {
         />
         <View style={Styles.audioController}>
           <PlayerButton iconType="PREV" />
-          <PlayerButton style={{ marginHorizontal: 50 }} iconType="PLAY" />
+          <PlayerButton
+            style={{ marginHorizontal: 50 }}
+            iconType={isPlaying ? "PLAY" : "PAUSE"}
+          />
           <PlayerButton iconType="NEXT" />
         </View>
       </View>

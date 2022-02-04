@@ -14,6 +14,9 @@ export default function AudioProvider({ children }) {
   const [currentAudio, setCurrentAudio] = useState({});
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentAudioIndex, setCurrentAudioIndex] = useState(null);
+  const [totalAudioCount, setTotalAudioCount] = useState(0);
+  const [playBackPosition, setPlayBackPosition] = useState(null);
+  const [playBackDuration, setPlayBackDuration] = useState(null);
   const permissionAlert = () => {
     Alert.alert(
       "Permission Required",
@@ -50,6 +53,7 @@ export default function AudioProvider({ children }) {
     });
     setDataprovider(dataProvider.cloneWithRows([...audioFiles, media.assets]));
     setAudioFiles(media.assets);
+    setTotalAudioCount(media.totalCount);
   };
 
   //Get permission from user before getting audio files
@@ -97,6 +101,7 @@ export default function AudioProvider({ children }) {
         setIsPlaying,
         currentAudioIndex,
         setCurrentAudioIndex,
+        totalAudioCount,
       }}
     >
       {children}
