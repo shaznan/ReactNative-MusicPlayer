@@ -7,8 +7,22 @@ import { AudioContext } from "../context/AudioProvider";
 
 const { width } = Dimensions.get("window");
 export default function Player() {
-  const { totalAudioCount, currentAudioIndex, currentAudio, isPlaying } =
-    useContext(AudioContext);
+  const {
+    totalAudioCount,
+    currentAudioIndex,
+    currentAudio,
+    isPlaying,
+    playBackPosition,
+    playBackDuration,
+  } = useContext(AudioContext);
+
+  const calculateSeekBar = () => {
+    if (playBackPosition && playBackDuration) {
+      return playBackPosition / playBackDuration;
+    } else {
+      return 0;
+    }
+  };
   return (
     <View style={Styles.container}>
       <Text style={Styles.audioCount}>{`${
@@ -23,6 +37,7 @@ export default function Player() {
         </Text>
         <Slider
           style={Styles.audioSlider}
+          value={calculateSeekBar()}
           minimumValue={0}
           maximumValue={1}
           minimumTrackTintColor="#FFFFFF"

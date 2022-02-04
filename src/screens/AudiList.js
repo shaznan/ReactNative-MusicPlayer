@@ -20,6 +20,10 @@ export default function AudioList() {
     setIsPlaying,
     currentAudioIndex,
     setCurrentAudioIndex,
+    playBackPosition,
+    setPlayBackPosition,
+    playBackDuration,
+    setPlayBackDuration,
   } = value;
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -36,6 +40,14 @@ export default function AudioList() {
   //   return <Text>{item.filename}</Text>;
   // };
 
+  // set current audio playing position to use in slider bar
+  const onPlaybackStatusUpdate = (playBackStatus) => {
+    if (playBackStatus.isLoaded && playBackStatus.isPlaying) {
+      setPlayBackPosition(playBackStatus.positionMillis);
+      setPlayBackDuration(playBackStatus.durationMillis);
+    }
+  };
+
   const handleAudioPress = async (item) => {
     //If no audio playing, play audio
     if (soundObject === null) {
@@ -49,6 +61,8 @@ export default function AudioList() {
       setPlayBackObj(playbackObject);
       setIsPlaying(true);
       setCurrentAudioIndex(audioFiles.indexOf(item));
+      //the below method is something like set interval for 500ms
+      playbackObject.setOnPlaybackStatusUpdate(onPlaybackStatusUpdate);
       return;
     }
     //if audio is playing, pause audio

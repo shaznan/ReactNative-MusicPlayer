@@ -102,6 +102,10 @@ export default function AudioProvider({ children }) {
         currentAudioIndex,
         setCurrentAudioIndex,
         totalAudioCount,
+        playBackPosition,
+        setPlayBackPosition,
+        playBackDuration,
+        setPlayBackDuration,
       }}
     >
       {children}
