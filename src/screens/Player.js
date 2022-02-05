@@ -14,7 +14,42 @@ export default function Player() {
     isPlaying,
     playBackPosition,
     playBackDuration,
+    soundObject,
+    playBackObj,
   } = useContext(AudioContext);
+  const handlePlayAndPause = async () => {
+    await selectAudio(context.currentAudio, context);
+    // play
+    if (context.soundObj === null) {
+      const audio = context.currentAudio;
+      const status = await play(context.playbackObj, audio.uri);
+      context.playbackObj.setOnPlaybackStatusUpdate(
+        context.onPlaybackStatusUpdate
+      );
+      return context.updateState(context, {
+        soundObj: status,
+        currentAudio: audio,
+        isPlaying: true,
+        currentAudioIndex: context.currentAudioIndex,
+      });
+    }
+    // pause
+    if (context.soundObj && context.soundObj.isPlaying) {
+      const status = await pause(context.playbackObj);
+      return context.updateState(context, {
+        soundObj: status,
+        isPlaying: false,
+      });
+    }
+    // resume
+    if (context.soundObj && !context.soundObj.isPlaying) {
+      const status = await resume(context.playbackObj);
+      return context.updateState(context, {
+        soundObj: status,
+        isPlaying: true,
+      });
+    }
+  };
 
   const calculateSeekBar = () => {
     if (playBackPosition && playBackDuration) {
@@ -48,6 +83,7 @@ export default function Player() {
           <PlayerButton
             style={{ marginHorizontal: 50 }}
             iconType={isPlaying ? "PLAY" : "PAUSE"}
+            onPress={handlePlayAndPause}
           />
           <PlayerButton iconType="NEXT" />
         </View>
